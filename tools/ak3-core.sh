@@ -1,10 +1,10 @@
 ### AnyKernel methods (DO NOT CHANGE)
 ## osm0sis @ xda-developers
 
-[ "$OUTFD" ] || OUTFD=$1
+[ "$OUTFD" ] || OUTFD="$1"
 
 # set up working directory variables
-[ "$AKHOME" ] || AKHOME=$PWD;
+[ "$AKHOME" ] || AKHOME="$PWD";
 BOOTIMG=$AKHOME/boot.img;
 BIN=$AKHOME/tools;
 PATCH=$AKHOME/patch;
@@ -39,8 +39,8 @@ file_getprop() {
 set_perm() {
 	local uid="$1" gid="$2" mod="$3"
 	shift 3
-	chown $uid:$gid "$@" || chown $uid.$gid "$@"
-	chmod $mod "$@"
+	chown "$uid:$gid" "$@" || chown "$uid.$gid" "$@"
+	chmod "$mod" "$@"
 }
 
 # set_perm_recursive <owner> <group> <dir_mode> <file_mode> <dir> [<dir2> ...]
@@ -74,7 +74,7 @@ split_boot() {
 	fi
 	[ $? != 0 ] && abort "Dumping image failed. Aborting...";
 	mkdir -p $SPLITIMG
-	cd $SPLITIMG
+	cd "$SPLITIMG"
 	if [ -f "$BIN/unpackelf" ] && unpackelf -i $BOOTIMG -h -q; then
 		if [ -f "$BIN/elftool" ]; then
 			mkdir elftool_out
@@ -134,7 +134,7 @@ split_boot() {
 		esac
 	fi
 	[ $? != 0 -o "$splitfail" ] && abort "Splitting image failed. Aborting..."
-	cd $AKHOME
+	cd "$AKHOME"
 }
 
 # unpack_ramdisk (extract ramdisk only)
